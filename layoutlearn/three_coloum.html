@@ -8,26 +8,98 @@
                 padding: 0px;
             }
             #left{
+                display: flex;
+                flex-direction: row;
                 margin: 20px;
                 position: absolute;
-                background-color: #0b2e13;
                 width: 200px;
-                height: 200px;
+                height: 100px;
+                border: #0b2e13 1px solid;
+
+                left: 0px;
+                top: 0px;
+            }
+            #right{
+                display: flex;
+                border: #0b2e13 1px solid;
+                flex-direction: column;
+                position: absolute;
+                right: 0px;
+                margin: 20px;
+                width: 120px;
+                height: auto;
+            }
+
+            #mid{
+                position: absolute;
+                left: 240px;
+                margin-top: 20px;
+                width: auto;
+                height: auto;
+                right: 160px;
+            }
+
+            .bg_mid_alter{
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 20px;
+                width: 80px;
+                height: 80px;
             }
         </style>
     <title>three_coloum</title>
 </head>
 <body>
    <div id="left">
-       <button id="add" style="width: 160px;height: 160px;background-color: #00aa88;border: 0px;margin: 20px;">
-           ADD
+       <button id="add" style="width: 60px;height: 60px;background-color: #eee;border: 0px;margin: 20px;">
+           add
        </button>
-   </div>
-   <div id="middle">
-
+       <button id="delete" style="width: 60px;height: 60px;background-color: #eee;border: 0px;margin: 20px;">
+           delete
+       </button>
    </div>
    <div id="right">
 
    </div>
+   <div id="mid">
+       <p id="mid_p">agwdgaga</p>
+   </div>
+   <script>
+       var parent=document.getElementById("right");
+       var mid=document.getElementById("mid");
+       var mid_p=document.getElementById("mid_p");
+       var add=document.getElementById("add");
+       add.onclick=function (ev) {
+           mid_p.textContent+="this is ......";
+       };
+       var elem_number=5;
+       for(i=0;i<elem_number;i++){
+           var element=document.createElement("div");
+           parent.appendChild(element);
+           var color=color_auto();
+           element.style.backgroundColor=color;
+           element.className="bg_mid_alter";
+           element.onclick=function (ev) {
+               mid.style.backgroundColor=this.style.backgroundColor;
+           };
+           if(i==elem_number-1){
+               element.style.marginBottom="20px";
+           }
+       }
+
+       function color_auto() {
+           var color="#";
+           for (var i=0;i<4;i++){
+               var c=parseInt(255*Math.random()).toString(16);
+               if(c.length==1){
+                   color+=0;
+                   color+=c;
+               }else {
+                   color+=c;
+               }
+           }
+           return color;
+       }
+   </script>
 </body>
 </html>
