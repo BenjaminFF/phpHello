@@ -1,0 +1,47 @@
+#header{
+    background-color: chocolate;
+}
+
+#clover_logo{
+    width: 160px;
+    height: 40px;
+    fill: #ffffff;
+    transform: rotate3d(0,80,0,180deg);
+}
+
+.bg-customer{
+    background-color: #028090 !important;
+}
+
+.my-nav-link{
+    font-size: 1.2rem;
+    color: #f7f7f7;
+    display: block;
+    padding: 0.5rem 1rem;       /*remfont size of the root element!*/
+}
+
+.my-nav-link:hover{
+    color: #00b3ee;
+    text-decoration: none;
+}
+
+.my-nav-brand{
+    font-size: 1.7rem;
+    color: #f7f7f7;
+}
+.my-nav-brand:hover{
+    color: #f7f7f7;
+    text-align: end;
+    text-decoration: none;
+}
+
+.my-toggle-icon{
+    background-image: url(menu.svg);
+}
+
+.my-card-deck{
+    background-color: #00b3ee;
+}
+
+
+
