@@ -39,6 +39,10 @@
                 right: 160px;
             }
 
+            p{
+                text-align: center;
+            }
+
             .bg_mid_alter{
                 margin-left: 20px;
                 margin-right: 20px;
@@ -62,21 +66,26 @@
 
    </div>
    <div id="mid">
-       <p id="mid_p">agwdgaga</p>
    </div>
    <script>
        var parent=document.getElementById("right");
        var mid=document.getElementById("mid");
-       var mid_p=document.getElementById("mid_p");
        var add=document.getElementById("add");
        add.onclick=function (ev) {
-           mid_p.textContent+="this is ......";
+           var p=document.createElement("p");
+           p.style.color=color_auto(3);
+           p.textContent=text_auto();
+           mid.appendChild(p);
+       };
+       var deletea=document.getElementById("delete");
+       deletea.onclick=function (ev) {
+           mid.removeChild(mid.lastChild);
        };
        var elem_number=5;
        for(i=0;i<elem_number;i++){
            var element=document.createElement("div");
            parent.appendChild(element);
-           var color=color_auto();
+           var color=color_auto(4);
            element.style.backgroundColor=color;
            element.className="bg_mid_alter";
            element.onclick=function (ev) {
@@ -87,9 +96,9 @@
            }
        }
 
-       function color_auto() {
+       function color_auto(n) {
            var color="#";
-           for (var i=0;i<4;i++){
+           for (var i=0;i<n;i++){
                var c=parseInt(255*Math.random()).toString(16);
                if(c.length==1){
                    color+=0;
@@ -99,6 +108,19 @@
                }
            }
            return color;
+       }
+
+       function text_auto() {
+           var a=new Array();
+           a[0]="block元素会独占一行，多个block元素会各自新起一行。默认情况下，block元素宽度自动填满其父元素宽度。";
+           a[1]="block元素可以设置width,height属性。块级元素即使设置了宽度,仍然是独占一行。";
+           a[2]="block元素可以设置margin和padding属性。";
+           a[3]="inline元素不会独占一行，多个相邻的行内元素会排列在同一行里，直到一行排列不下，才会新换一行，其宽度随元素的内容而变化。";
+           a[4]="inline元素设置width,height属性无效。";
+           a[5]="inline元素的margin和padding属性，水平方向的padding-left, padding-right, margin-left, margin-right都产生边距效果；但竖直方向的padding-top, padding-bottom, margin-top, margin-bottom不会产生边距效果。";
+           a[6]="inline-block的元素特点：应用此特性的元素呈现为内联对象，周围元素保持在同一行，但可以设置宽度和高度地块元素的属性";
+           var n=parseInt(Math.random()*a.length);
+           return a[n];
        }
    </script>
 </body>
