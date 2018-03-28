@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>boxmodel</title>
+    <style type="text/css">
+        body,p,div{
+            padding: 0;
+            margin: 0;
+        }
+        p{
+            width: 20px;
+            height: 20px;
+        }
+        input{
+            width: 50px;
+            height: 20px;
+        }
+        .right_items{
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+        }
+        #right{
+            flex-direction: column;
+            width: auto;
+            height: auto;
+            float: right;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="right">
+    <div class="right_items">
+        <p>width:</p>
+        <input type="number">
+    </div>
+    <div class="right_items">
+        <p>height:</p>
+        <input type="number">
+    </div>
+</div>
+
+</body>
+</html>
