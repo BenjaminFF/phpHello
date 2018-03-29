@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>negative_margin</title>
+    <style type="text/css">
+        body,div{
+            margin: 0px;
+            padding: 0px;
+        }
+        #content{
+            display: flex;
+            justify-items: center;
+            align-items: center;
+        }
+        .box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px black solid;
+            width: fit-content;
+            height: fit-content;
+            margin: 20px;
+        }
+        .out{
+            position: relative;
+            border: 1px black solid;
+            width: 300px;
+            height: 300px;
+        }
+        #in{
+            position: relative;
+            left: 50%;
+            top: 50%;
+            background-color: #00ccff;
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
+            margin-left: -50px;
+        }
+        #in2{
+            position: relative; left: 50%; top: 50%;  /* 50%为父节点尺寸的一半 */
+            width: 100px;
+            height: 100px;
+            background-color: #00ccff;
+            transform: translate(-50%,-50%);   /* 50%为自身尺寸的一半 */
+        }
+
+        #in3{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #00ccff;
+            left: 0;right: 0;top: 0;bottom: 0;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+   <div id="content">
+       <div class="box">
+           <div class="out">
+               <div id="in">
+               </div>
+           </div>
+       </div>
+       <div class="box">
+           <div class="out">
+               <div id="in2">
+               </div>
+           </div>
+       </div>
+       <div class="box">
+           <div class="out">
+               <div id="in3">
+               </div>
+           </div>
+       </div>
+   </div>
+</body>
+</html>
