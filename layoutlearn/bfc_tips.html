@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bfc_tips</title>
+    <style type="text/css">
+        #container{
+            display: flex;
+            justify-items: center;
+            align-items: center;
+        }
+        .sub_container{
+            width: 300px;
+            height: 300px;
+            border: black 1px solid;
+            margin: 20px;
+        }
+        .no_bfc_margin{
+            background-color: #00ccff;
+            width: 50px;
+            height: 50px;
+            margin: 50px;
+
+        }
+        .bfc_margin{
+
+            overflow: hidden;
+        }
+
+        p{
+            background-color: #00ccff;
+            width: 50px;
+            height: 50px;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="sub_container">
+            <div class="no_bfc_margin">
+
+            </div>
+            <div class="no_bfc_margin">
+
+            </div>
+        </div>
+
+        <div class="sub_container">
+            <div class="bfc_margin">
+                <p>避免Margin重叠</p>
+            </div>
+            <div class="bfc_margin">
+                <p>避免Margin重叠</p>
+            </div>
+        </div>
+
+        <div class="sub_container">
+            <div style="float: left;width: 50px;height: 50px;background-color: greenyellow;margin-right: 20px">
+                我是浮动元素
+            </div>
+            <div style="width: 200px;height: 200px;background-color: lightcyan;overflow: hidden;">
+                添加overflow:hidden触动bfc,阻止元素被浮动元素覆盖,但是设置margin就要有点大才行。。。
+            </div>
+        </div>
+    </div>
+</body>
+</html>
