@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>negative_margin</title>
+    <title>margin_tips</title>
     <style type="text/css">
         body,div{
             margin: 0px;
@@ -54,6 +54,27 @@
             left: 0;right: 0;top: 0;bottom: 0;
             margin: auto;
         }
+        #in4_main,#in4_left,#in4_right{
+            float: left;
+            height: 100%;
+        }
+        #in4_main{
+            width: 100%;
+        }
+        #in4_main_in{
+            height: 100%;
+            background-color: green;
+        }
+        #in4_left{
+            margin-left: -100%;
+            background-color: #2B81AF;
+            width: 50px;
+        }
+        #in4_right{
+            background-color: #2B81AF;
+            margin-left: -100px;
+            width: 100px;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +94,19 @@
        <div class="box">
            <div class="out">
                <div id="in3">
+               </div>
+           </div>
+       </div>
+       <div class="box">
+           <div class="out">
+               <div id="in4_main">
+                   <div id="in4_main_in">
+                   </div>
+               </div>
+               <div id="in4_left">
+
+               </div>
+               <div id="in4_right">
                </div>
            </div>
        </div>
