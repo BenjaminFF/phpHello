@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form1</title>
+    <style type="text/css">
+        body,div,button,form{
+            margin: 0px;
+            padding: 0px;
+        }
+
+        html,body{
+            height: 100%;
+            width: 100%;
+        }
+        body{
+            flex-direction: column;
+            display: flex;
+            align-items: center;
+        }
+
+        .form_style{
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+        }
+        .form_style p{
+            width: 2em;
+            height: 2em;
+            font-size: 1.2em;
+            margin-right: 1em;
+        }
+        .form_style input{
+            font-size: 1.2em;
+            width: 15em;
+            height: 2em;
+            margin-right: 1em;
+            border-radius: 3px;
+            border: 1px black solid;
+        }
+
+        .form_style .input_div{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form_style button{
+            font-size: 1em;
+            width: 4em;
+            height: 2.5em;
+            margin-right: 1em;
+            border-radius: 3px;
+            border: 0px black solid;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #00b3ee;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+   <form class="form_style">
+       <p>姓名</p>
+       <div class="input_div">
+           <input type="text" name="username">
+           <p>dsafsa</p>
+       </div>
+       <button>验证</button>
+   </form>
+</body>
+</html>
