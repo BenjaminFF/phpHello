@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>square_control</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="jquery.rotate.js"></script>
+    <style type="text/css">
+        body,div,button{
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #controler{
+            width: 200px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #squareCanvas{
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div id="controler">
+        <button id="go" style="width: 40px;height: 20px">Go</button>
+        <button id="left" style="width: 40px;height: 20px">Left</button>
+        <button id="right" style="width: 40px;height: 20px">Right</button>
+        <button id="back" style="width: 40px;height: 20px">Back</button>
+    </div>
+    <div id="container">
+        <canvas id="myCanvas" width="550" height="550" style="border: black solid 2px">
+        </canvas>
+
+        <canvas id="squareCanvas" width="50" height="50">
+        </canvas>
+    </div>
+    <script>
+        $("#squareCanvas").animate({
+            top:'-302px'
+        },"slow");
+
+        var mLeft=0;
+        var mTop=0;
+        var directions=["n","w","s","e"];
+        var direct_index=0;
+        var canvas=document.getElementById("myCanvas");
+        var ctx=canvas.getContext('2d');
+        ctx.strokeStyle="#000000";
+        ctx.lineWidth=1;
+        var count=11;
+        var squarewidth=canvas.width/count;
+        ctx.save();
+        for (var i=1;i<count;i++){
+            ctx.beginPath();
+            ctx.moveTo(0,i*squarewidth);
+            ctx.lineTo(canvas.width,i*squarewidth);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(i*squarewidth,0);
+            ctx.lineTo(i*squarewidth,canvas.width);
+            ctx.stroke();
+        }
+
+        var squcanvas=document.getElementById("squareCanvas");
+        var squctx=squcanvas.getContext('2d');
+        squctx.fillStyle="red";
+        squctx.fillRect(0,0,50,10);
+        squctx.fillStyle="green";
+        squctx.fillRect(0,10,50,50);
+
+        var go=document.getElementById("go");
+        go.onclick=function (ev) {
+            movebydirction();
+        };
+
+       $("#left").click(function () {
+           if(direct_index!=3){
+               direct_index++;
+           }else {
+               direct_index=0;
+           }
+           $('#squareCanvas').animate({rotate: '-=90'}, 1000);
+       });
+
+        $("#right").click(function () {
+            if(direct_index!=0){
+                direct_index--;
+            }else {
+                direct_index=3;
+            }
+            $('#squareCanvas').animate({rotate: '+=90'}, 1000);
+        });
+
+        $("#back").click(function () {
+            if(direct_index<=1){
+                direct_index+=2;
+            }else if(direct_index==2){
+                direct_index=0;
+            }else {
+                direct_index=1;
+            }
+            $('#squareCanvas').animate({rotate: '+=180'}, 1000);
+
+        });
+
+        function movebydirction() {
+            switch (directions[direct_index]){
+                case "n":
+                    if(mTop>=-200){
+                        $("#squareCanvas").animate({
+                            top:'-=50px'
+                        });
+                        mTop-=50;
+                    }
+                    break;
+                case "s":
+                    if(mTop<=200){
+                        $("#squareCanvas").animate({
+                            top:'+=50px'
+                        });
+                        mTop+=50;
+                    }
+                    break;
+                case "w":
+                    if(mLeft>=-200){
+                        $("#squareCanvas").animate({
+                            left:"-=50px"
+                        });
+                        mLeft-=50;
+                    }
+                    break;
+                case "e":
+                    if(mLeft<=200){
+                        $("#squareCanvas").animate({
+                            left:"+=50px"
+                        });
+                        mLeft+=50;
+                    }
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
