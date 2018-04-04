@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>form1</title>
+    <script src="jquery-3.3.1.min.js"></script>
     <style type="text/css">
         body,div,button,form{
             margin: 0px;
@@ -36,12 +37,18 @@
             height: 2em;
             margin-right: 1em;
             border-radius: 3px;
-            border: 1px black solid;
+            outline: none;
         }
-
         .form_style .input_div{
             display: flex;
             flex-direction: column;
+        }
+
+        .form_style .input_div p{
+            font-size: 1.2em;
+            flex: 1 0 auto;
+            width: 15em;
+            height: 2em;
         }
 
         .form_style button{
@@ -61,13 +68,58 @@
     </style>
 </head>
 <body>
-   <form class="form_style">
+   <div class="form_style" id="form1">
        <p>姓名</p>
        <div class="input_div">
            <input type="text" name="username">
-           <p>dsafsa</p>
+           <p></p>
        </div>
        <button>验证</button>
-   </form>
+   </div>
+
+   <script>
+       var input1=$("#form1 div input");
+       var div_p=$("#form1 div p");
+       input1.css("border","grey 1px solid");
+       div_p.text("必填，长度为4~16个字符");
+       div_p.css("color","grey");
+
+
+
+       $("#form1 button").click(function () {
+           if(input1.val()==""||input1.val()==null){
+               div_p.text("姓名不能为空");
+               div_p.css("color","red");
+               input1.css("border","red 1px solid");
+               input1.focus();
+           }
+           if(getByteLen(input1.val())<=16&&getByteLen(input1.val())>=4){
+               div_p.text("验证成功");
+               div_p.css("color","blue");
+               input1.css("border","blue 1px solid");
+           }else {
+               div_p.text("不符合规则");
+               div_p.css("color","red");
+               input1.css("border","red 1px solid");
+               input1.focus();
+           }
+       });
+
+       function getByteLen(val) {
+           var len = 0;
+           for (var i = 0; i < val.length; i++) {
+               var length = val.charCodeAt(i);
+               if(length>=0&&length<=128)
+               {
+                   len += 1;
+               }
+               else
+               {
+                   len += 2;
+               }
+           }
+           return len;
+       }
+   </script>
 </body>
 </html>
