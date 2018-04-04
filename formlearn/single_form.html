@@ -4,68 +4,7 @@
     <meta charset="UTF-8">
     <title>form1</title>
     <script src="jquery-3.3.1.min.js"></script>
-    <style type="text/css">
-        body,div,button,form{
-            margin: 0px;
-            padding: 0px;
-        }
-
-        html,body{
-            height: 100%;
-            width: 100%;
-        }
-        body{
-            flex-direction: column;
-            display: flex;
-            align-items: center;
-        }
-
-        .form_style{
-            display: flex;
-            flex-direction: row;
-            align-items: baseline;
-        }
-        .form_style p{
-            width: 2em;
-            height: 2em;
-            font-size: 1.2em;
-            margin-right: 1em;
-        }
-        .form_style input{
-            font-size: 1.2em;
-            width: 15em;
-            height: 2em;
-            margin-right: 1em;
-            border-radius: 3px;
-            outline: none;
-        }
-        .form_style .input_div{
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form_style .input_div p{
-            font-size: 1.2em;
-            flex: 1 0 auto;
-            width: 15em;
-            height: 2em;
-        }
-
-        .form_style button{
-            font-size: 1em;
-            width: 4em;
-            height: 2.5em;
-            margin-right: 1em;
-            border-radius: 3px;
-            border: 0px black solid;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #00b3ee;
-            color: white;
-        }
-
-    </style>
+    <link href="formstyle.css" type="text/css" rel="stylesheet">
 </head>
 <body>
    <div class="form_style" id="form1">
@@ -80,7 +19,6 @@
    <script>
        var input1=$("#form1 div input");
        var div_p=$("#form1 div p");
-       input1.css("border","grey 1px solid");
        div_p.text("必填，长度为4~16个字符");
        div_p.css("color","grey");
 
