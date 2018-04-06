@@ -7,7 +7,7 @@
     <link href="formstyle.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-<div class="form_style" id="form1">
+<div class="form_style" id="form1" style="margin-top: 2em">
     <p>姓名</p>
     <div class="input_div">
         <input type="text" name="username">
@@ -22,5 +22,135 @@
         <p></p>
     </div>
 </div>
+
+<div class="form_style" id="form3">
+    <p>密码确认</p>
+    <div class="input_div">
+        <input type="text" name="username">
+        <p></p>
+    </div>
+</div>
+
+<div class="form_style" id="form4">
+    <p>邮箱</p>
+    <div class="input_div">
+        <input type="text" name="username">
+        <p></p>
+    </div>
+</div>
+
+<div class="form_style" id="form5">
+    <p>手机</p>
+    <div class="input_div">
+        <input type="text" name="username">
+        <p></p>
+        <button class="mybutton">提交</button>
+    </div>
+</div>
+
+<script>
+    var form1_iden=false;
+    var form2_suc=false;
+    var form2_iden=false;
+    var form3_iden=false;
+    $("#form1 input").focus(function () {
+        if(!form1_iden){
+            $("#form1 div p").text("必填，长度为4~16个字符");
+            $("#form1 div p").css("color","grey");
+            $(this).css("border","grey 1px solid");
+        }
+    });
+    $("#form1 input").blur(function () {
+        if ($(this).val()==""||$(this).val()==null){
+            $("#form1 div p").text("名字不能为空");
+            $("#form1 div p").css("color","red");
+            $(this).css("border","red 1px solid");
+        }else if(getByteLen($(this).val())>=4&&getByteLen($(this).val())<=16){
+            $("#form1 div p").text("名字可用");
+            $("#form1 div p").css("color","green");
+            $(this).css("border","green 1px solid");
+        }else {
+            $("#form1 div p").text("长度不符合规则");
+            $("#form1 div p").css("color","red");
+            $(this).css("border","red 1px solid");
+        }
+        if (!form1_iden){
+            form1_iden=true;
+        }
+    });
+
+    $("#form2 input").focus(function () {
+        if(!form2_iden){
+            $("#form2 div p").text("必填，长度为6~16个字符");
+            $("#form2 div p").css("color","grey");
+            $(this).css("border","grey 1px solid");
+        }
+    });
+    $("#form2 input").blur(function () {
+        if ($(this).val()==""||$(this).val()==null){
+            $("#form2 div p").text("密码不能为空");
+            $("#form2 div p").css("color","red");
+            $(this).css("border","red 1px solid");
+            form2_suc=false;
+        }else if(getByteLen($(this).val())>=4&&getByteLen($(this).val())<=16){
+            $("#form2 div p").text("密码可用");
+            $("#form2 div p").css("color","green");
+            $(this).css("border","green 1px solid");
+            form2_suc=true;
+        }else {
+            $("#form2 div p").text("长度不符合规则");
+            $("#form2 div p").css("color","red");
+            $(this).css("border","red 1px solid");
+            form2_suc=false;
+        }
+        if (!form2_iden){
+            form2_iden=true;
+        }
+    });
+
+    $("#form3 input").focus(function () {
+        if(!form3_iden){
+            $("#form3 div p").text("再次输入密码");
+            $("#form3 div p").css("color","grey");
+            $(this).css("border","grey 1px solid");
+        }
+    });
+    $("#form3 input").blur(function () {
+        if (form2_suc&&$("#form2 input").val()!=null){
+            if ($(this).val()!=$("#form2 input").val()) {
+                $("#form3 div p").text("与上次密码不符");
+                $("#form3 div p").css("color", "red");
+                $(this).css("border", "red 1px solid");
+            }else if($(this).val()==$("#form2 input").val()){
+                $("#form3 div p").text("密码验证正确");
+                $("#form3 div p").css("color", "green");
+                $(this).css("border", "green 1px solid");
+            }
+        }else {
+            $("#form3 div p").text("再次输入密码");
+            $("#form3 div p").css("color","grey");
+            $(this).css("border","grey 1px solid");
+        }
+        if(!form3_iden){
+            form3_iden=true;
+        }
+    });
+
+    function getByteLen(val) {
+        var len = 0;
+        for (var i = 0; i < val.length; i++) {
+            var length = val.charCodeAt(i);
+            if(length>=0&&length<=128)
+            {
+                len += 1;
+            }
+            else
+            {
+                len += 2;
+            }
+        }
+        return len;
+    }
+</script>
 </body>
 </html>
