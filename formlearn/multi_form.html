@@ -50,9 +50,17 @@
 
 <script>
     var form1_iden=false;
-    var form2_suc=false;
     var form2_iden=false;
     var form3_iden=false;
+    var form4_iden=false;
+    var form5_iden=false;
+
+    var form1_suc=false;
+    var form2_suc=false;
+    var form3_suc=false;
+    var form4_suc=false;
+    var form5_suc=false;
+
     $("#form1 input").focus(function () {
         if(!form1_iden){
             $("#form1 div p").text("必填，长度为4~16个字符");
@@ -65,14 +73,17 @@
             $("#form1 div p").text("名字不能为空");
             $("#form1 div p").css("color","red");
             $(this).css("border","red 1px solid");
+            form1_suc=false;
         }else if(getByteLen($(this).val())>=4&&getByteLen($(this).val())<=16){
             $("#form1 div p").text("名字可用");
             $("#form1 div p").css("color","green");
             $(this).css("border","green 1px solid");
+            form1_suc=true;
         }else {
             $("#form1 div p").text("长度不符合规则");
             $("#form1 div p").css("color","red");
             $(this).css("border","red 1px solid");
+            form1_suc=false;
         }
         if (!form1_iden){
             form1_iden=true;
@@ -121,19 +132,90 @@
                 $("#form3 div p").text("与上次密码不符");
                 $("#form3 div p").css("color", "red");
                 $(this).css("border", "red 1px solid");
+                form3_suc=false;
             }else if($(this).val()==$("#form2 input").val()){
                 $("#form3 div p").text("密码验证正确");
                 $("#form3 div p").css("color", "green");
                 $(this).css("border", "green 1px solid");
+                form3_suc=true;
             }
         }else {
             $("#form3 div p").text("再次输入密码");
             $("#form3 div p").css("color","grey");
             $(this).css("border","grey 1px solid");
+            form3_suc=false;
         }
         if(!form3_iden){
             form3_iden=true;
         }
+    });
+
+    $("#form4 input").focus(function () {
+        if(!form4_iden){
+            $("#form4 div p").text("请输入正确的邮箱格式");
+            $("#form4 div p").css("color","grey");
+            $(this).css("border","grey 1px solid");
+        }
+    });
+    $("#form4 input").blur(function () {
+        if(IsEmail($(this).val())){
+            $("#form4 div p").text("可用的邮箱格式");
+            $("#form4 div p").css("color","green");
+            $(this).css("border","green 1px solid");
+            form4_suc=true;
+        }else {
+            $("#form4 div p").text("邮箱格式不正确");
+            $("#form4 div p").css("color","red");
+            $(this).css("border","red 1px solid");
+            form4_suc=false;
+        }
+        if(!form4_iden){
+            form4_iden=true;
+        }
+    });
+
+    $("#form5 input").focus(function () {
+        if(!form5_iden){
+            $("#form5 div p").text("请输入正确的手机号码格式");
+            $("#form5 div p").css("color","grey");
+            $(this).css("border","grey 1px solid");
+        }
+    });
+    $("#form5 input").blur(function () {
+        if(IsPhone($(this).val())){
+            $("#form5 div p").text("可用的手机号码格式");
+            $("#form5 div p").css("color","green");
+            $(this).css("border","green 1px solid");
+            form5_suc=true;
+        }else {
+            $("#form5 div p").text("请输入正确的手机号码");
+            $("#form5 div p").css("color","red");
+            $(this).css("border","red 1px solid");
+            form5_suc=false;
+        }
+        if(!form5_iden){
+            form5_iden=true;
+        }
+    });
+
+    $(".mybutton").click(function () {
+        var wronglog="";
+        if (!form1_suc){
+            wronglog+="名字有误\n";
+        }
+        if(!form2_suc){
+            wronglog+="密码有误\n";
+        }
+        if(!form3_suc){
+            wronglog+="密码确认有误\n";
+        }
+        if(!form4_suc){
+            wronglog+="邮箱有误\n";
+        }
+        if(!form5_suc){
+            wronglog+="手机号码有误\n";
+        }
+        alert(wronglog);
     });
 
     function getByteLen(val) {
@@ -150,6 +232,17 @@
             }
         }
         return len;
+    }
+
+    /*校验邮件地址是否合法 */
+    function IsEmail(str) {
+        var reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[com|cn])/;
+        return reg.test(str);
+    }
+
+    function IsPhone(str) {
+        var reg=/^[1-9][0-9]{10}/;
+        return reg.test(str);
     }
 </script>
 </body>
