@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="jquery-3.3.1.min.js"></script>
     <style type="text/css">
         body,div{
             margin: 0;
@@ -33,19 +34,68 @@
 </head>
 <body>
     <div class="inputradio">
-        <input type="radio" name="colors" id="inschool">
+        <input type="radio" name="p" value="inschool" checked="checked">
         <p style="margin-right: 10em">在校生</p>
-        <input type="radio" name="colors" id="outschool">
+        <input type="radio" name="p" value="outschool">
         <p>非在校生</p>
     </div>
 
-    <div class="selectbox">
-        <p>学校</p>
-        <select><option value ="beijing">北京</option>
+    <div class="selectbox" id="selectbox1">
+        <p style="margin-right: 1em">学校</p>
+        <select style="border-radius: 2px;padding: 0.3em;font-size: medium;margin-right: 3em;" id="select1">
+            <option value ="beijing">北京</option>
             <option value ="tianjing">天津</option>
             <option value="shanghai">上海</option>
-            <option value="nanjing">南京</option>
+        </select>
+
+        <select style="border-radius: 2px;padding: 0.3em;font-size: medium" id="select2">
+
         </select>
     </div>
+
+    <div class="selectbox" id="selectbox2">
+        <p style="margin-right: 1em" id="aa">就业单位</p>
+        <input style="border-radius: 2px;padding: 0.3em;font-size: medium;outline: none;border: 1px grey solid">
+    </div>
+    <script>
+        var schoolvalues=new Array("beijing1","beijing2");
+        var schoolnames=new Array("北京大学1","北京大学2");
+        createschool(schoolvalues,schoolnames);
+        $("#selectbox2").hide();
+        $(":radio").click(function () {
+           if($(this).val()=="inschool"){
+               $("#selectbox2").hide();
+               $("#selectbox1").show();
+           }else if($(this).val()=="outschool"){
+               $("#selectbox1").hide();
+               $("#selectbox2").show();
+           }
+        });
+        $("#selectbox1 #select1").change(function () {
+            $("#selectbox1 #select2").children().remove();
+            if($(this).val()=="beijing"){
+                var schoolvalues=new Array("beijing1","beijing2");
+                var schoolnames=new Array("北京大学1","北京大学2");
+                createschool(schoolvalues,schoolnames);
+            }else if($(this).val()=="tianjing"){
+                var schoolvalues=new Array("tianjing1","tianjing2");
+                var schoolnames=new Array("天津大学1","天津大学2");
+                createschool(schoolvalues,schoolnames);
+            }
+            else if($(this).val()=="shanghai"){
+                var schoolvalues=new Array("shanghai1","shanghai2");
+                var schoolnames=new Array("上海大学1","上海大学2");
+                createschool(schoolvalues,schoolnames);
+            }
+        });
+
+        function createschool(schoolvalues,schoolnames) {
+            $("#selectbox1 #select2").children();
+            for(i=0;i<schoolvalues.length;i++){
+                $("#selectbox1 #select2").append("<option value="+schoolvalues[i]+">"+schoolnames[i]+"</option>");
+
+            }
+        }
+    </script>
 </body>
 </html>

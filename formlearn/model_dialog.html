@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>modeldialog</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <style type="text/css">
+        body,div,p,sub{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+
+        .mymodel{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(143, 143, 143, 0.63);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .mymodel .dialog{
+            width: 20%;
+            height: 20%;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+        }
+        .mymodel .dialog #p1{
+            flex: 2 0 0;
+            background-color: grey;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+        }
+        .mymodel .dialog #p2{
+            flex: 4 0 0;
+            padding: 1em;
+            display: -moz-box;
+        }
+        .mymodel .dialog .buttongroup{
+            flex: 2 0 0;
+            background-color: grey;
+            display: flex;
+        }
+        .mymodel .dialog .buttongroup button{
+            flex: 1 0 0;
+            border: none;
+            outline: none;
+        }
+        .mymodel .dialog .buttongroup #b1{
+        border-right: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+   <div style="display: flex;justify-content: center">
+       <button id="popdialog">
+           弹出对话框
+       </button>
+   </div>
+
+   <script>
+       $("#popdialog").click(function () {
+           createdialog();
+       });
+
+       function createdialog() {
+           var dialog=$("<div class=\"mymodel\">\n" +
+               "       <div class=\"dialog\">\n" +
+               "           <p id=\"p1\">你好</p>\n" +
+               "           <p id=\"p2\">这是...这是...这是...这是...v这是...这是...这是...</p>\n" +
+               "           <div class=\"buttongroup\">\n" +
+               "               <button id=\"b1\">确定</button>\n" +
+               "               <button id=\"b2\">取消</button>\n" +
+               "           </div>\n" +
+               "       </div>\n" +
+               "   </div>");
+           $("body").append(dialog);
+       }
+   </script>
+</body>
+</html>
