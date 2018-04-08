@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body,div{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            display: flex;
+            justify-content: start;
+            flex-direction: column;
+        }
+
+        .inputradio{
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+
+        .selectbox{
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+    </style>
+</head>
+<body>
+    <div class="inputradio">
+        <input type="radio" name="colors" id="inschool">
+        <p style="margin-right: 10em">在校生</p>
+        <input type="radio" name="colors" id="outschool">
+        <p>非在校生</p>
+    </div>
+
+    <div class="selectbox">
+        <p>学校</p>
+        <select><option value ="beijing">北京</option>
+            <option value ="tianjing">天津</option>
+            <option value="shanghai">上海</option>
+            <option value="nanjing">南京</option>
+        </select>
+    </div>
+</body>
+</html>
