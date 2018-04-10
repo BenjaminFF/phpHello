@@ -23,7 +23,6 @@
             width: 100%;
             height: 100%;
             background-color: rgba(143, 143, 143, 0.63);
-            z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -75,7 +74,12 @@
 
    <script>
        $("#popdialog").click(function () {
-           createdialog();
+           if($(".mymodel").length<=0){
+               createdialog();
+           }
+           else {
+               $(".mymodel").show();
+           }
        });
 
        function createdialog() {
@@ -90,6 +94,17 @@
                "       </div>\n" +
                "   </div>");
            $("body").append(dialog);
+           $(".mymodel").click(function () {
+               $(this).hide();
+           });
+           $("#b1").click(function () {
+               alert("确定");
+               return false;
+           });
+           $("#b2").click(function () {
+               alert("取消");
+               return false;
+           });
        }
    </script>
 </body>

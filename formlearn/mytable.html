@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mytable</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <style type="text/css">
+        body,divm,span,img,p{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            flex-direction: column;
+        }
+        .mtable{
+            width: fit-content;
+            height: fit-content;
+            flex: 0 0 auto;
+            font-size: 1em;
+            border-collapse: collapse;
+            display: table;
+            margin-bottom: 1em;
+        }
+        .mth{
+            display: table-row;
+        }
+        .mth .item{
+            width: 6em;
+            height: 2em;
+            font-size: 1em;
+            display: table-cell;
+            border: black 2px solid;
+            position: relative;
+        }
+        .mth .item p{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .mth .item div{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .mth .item  p{
+            font-size: 1.2em;
+        }
+        .mth .item div .imggroup{
+            width: 20%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .mth .item div .imggroup img{
+            width: 0.8em;
+            height: 0.8em;
+            margin: 0.1em;
+        }
+
+        .mtr{
+           display: table-row;
+        }
+        .mtr .item{
+            width: 6em;
+            height: 2em;
+            display: table-cell;
+            border: black 2px solid;
+        }
+        .mtr .item p{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+        }
+
+        .selectbox{
+            display: flex;
+            align-items: baseline;
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        function mytable(row,column) {
+            this.row=row;
+            this.column=column;
+            this.tharr=null;
+            this.rowarr=null;
+            this.size=1;
+            this.settheadarr=function (arr) {
+                this.tharr=arr;
+            }
+            this.setrowarr=function (arr) {
+                this.rowarr=arr;
+            }
+            
+            this.compareByth=function (property,reverse) {   //默认是升序 reverse==true是降序
+                return function (a,b) {
+                    if(typeof  a[property]=="number"){
+                        if(!reverse){
+                            return a[property]-b[property];
+                        }else {
+                            return b[property]-a[property];
+                        }
+                    }else if(typeof  a[property]=="string"){
+                        var v1=a[property].charCodeAt(0);
+                        var v2=b[property].charCodeAt(0);
+                        if(!reverse){
+                            return v1-v2;
+                        }else {
+                            return v2-v1;
+                        }
+                    }
+                }
+            }
+            this.sortRowby=function (property,reverse) {
+                this.rowarr.sort(this.compareByth(property,reverse));
+            }
+        }
+
+        function createMytable(table){
+            var mytable=table;
+            var html_table="<div class=\"mtable\"></div>";
+            $("body").append(html_table);
+            var html_th="<div class=\"mth\"></div>";
+            $(".mtable").append(html_th);
+            for(i=0;i<mytable.tharr.length;i++){
+                var html_thitem="<div class=\"item\" id=\"thitem"+i+"\">\n" +
+                    "                    <p>"+mytable.tharr[i]+"</p>\n" +
+                    "                    <div>\n" +
+                    "                        <div class=\"imggroup\">\n" +
+                    "                            <img src=\"up.svg\"/>\n" +
+                    "                            <img src=\"down.svg\"/>\n" +
+                    "                        </div>\n" +
+                    "                        </div>\n" +
+                    "                </div>";
+                $(".mth").append(html_thitem);
+                $("#thitem"+i+" img:nth-child(1)").click(function () {
+                    switch($(this).parents(".item").children("p").text()){
+                        case "姓名":
+                            table1.sortRowby("name",false);
+                            updaterow(table1);
+                            break;
+                        case "语文":
+                            table1.sortRowby("Chinese",false);
+                            updaterow(table1);
+                            break;
+                        case "数学":
+                            table1.sortRowby("Math",false);
+                            updaterow(table1);
+                            break;
+                        case "英语":
+                            table1.sortRowby("English",false);
+                            updaterow(table1);
+                            break;
+                        case "总分":
+                            table1.sortRowby("Total",false);
+                            updaterow(table1);
+                            break;
+                    }
+                });
+                $("#thitem"+i+" img:nth-child(2)").click(function () {
+                    switch($(this).parents(".item").children("p").text()){
+                        case "姓名":
+                            table1.sortRowby("name",true);
+                            updaterow(table1);
+                            break;
+                        case "语文":
+                            table1.sortRowby("Chinese",true);
+                            updaterow(table1);
+                            break;
+                        case "数学":
+                            table1.sortRowby("Math",true);
+                            updaterow(table1);
+                            break;
+                        case "英语":
+                            table1.sortRowby("English",true);
+                            updaterow(table1);
+                            break;
+                        case "总分":
+                            table1.sortRowby("Total",true);
+                            updaterow(table1);
+                            break;
+                    }
+                });
+            }
+            for(i=0;i<mytable.rowarr.length;i++){
+                var html_row=" <div class=\"mtr\" id=\"mtr"+i+"\"></div>";
+                $(".mtable").append(html_row);
+               for (x in mytable.rowarr[i]){
+                   $("#mtr"+i).append("<div class=\"item\">\n" +
+                       "<p class=\""+x+"\">"+mytable.rowarr[i][x]+"</p>\n" +
+                       "</div>");
+               }
+            }
+        }
+
+        function updaterow(table) {
+            for(i=0;i<table.rowarr.length;i++){
+                for(x in table.rowarr[i]){
+                    $("#mtr"+i+" ."+x).text(table.rowarr[i][x]);
+                    console.info(table.rowarr[i][x]);
+                }
+            }
+        }
+
+        //给的数据
+        var p1={name:"李磊",Chinese:90,Math:70,English:80,Total:240};
+        var p2={name:"小明",Chinese:85,Math:75,English:95,Total:255};
+        var p3={name:"红二",Chinese:70,Math:65,English:85,Total:220};
+        var parr=new Array(3);
+        parr[0]=p1;
+        parr[1]=p2;
+        parr[2]=p3;
+        var table1=new mytable(5,3);
+
+        table1.settheadarr(new Array("姓名","语文","数学","英语","总分"));   //theadarr长度==column
+        table1.setrowarr(parr);  //rowarr.length==row
+
+        (function () {
+            createMytable(table1);
+        })();
+
+        $("body").append("<div class=\"selectbox\">\n" +
+            "    <p style=\"margin-right: 1em\">大小</p>\n" +
+            "    <select style=\"border-radius: 2px;padding: 0.3em;font-size: medium;margin-right: 3em;\" id=\"select1\">\n" +
+            "        <option value =\"1\">1</option>\n" +
+            "        <option value =\"1.2\">1.2</option>\n" +
+            "        <option value=\"1.4\">1.4</option>\n" +
+            "        <option value =\"1.6\">1.6</option>\n" +
+            "        <option value =\"1.8\">1.8</option>\n" +
+            "        <option value=\"2.0\">2.0</option>\n" +
+            "    </select>\n" +
+            "\n" +
+            "    <p style=\"margin-right: 1em\">表头颜色</p>\n" +
+            "    <input style=\"border-radius: 2px;padding: 0.3em;font-size: medium;outline: none;border: 1px grey solid;width: 6em\" id=\"thcolor\">\n" +
+            "</div>");
+        $("#select1").change(function () {
+            $(".mtable").css("font-size",$(this).val()+"em");
+        });
+        $("#thcolor").attr("maxlength",9);
+        $("#thcolor").bind("input",function () {
+            if(/^#([0-9]|[a-f]|[A-F]){3,8}/.test($(this).val())){
+                console.info($(this).val());
+                $(".mth").css("background-color",$(this).val());
+            }
+        });
+    </script>
+</body>
+</html>
