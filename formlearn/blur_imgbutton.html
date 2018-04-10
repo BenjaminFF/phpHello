@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>blur_imgbutton</title>
+    <style type="text/css">
+        body,div{
+            margin: 0;
+            padding: 0;
+        }
+
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        
+        body{
+            display: flex;
+            justify-content: center;
+        }
+        #blur_imgbutton{
+            width: 300px;
+            height: 200px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #blur_imgbutton img{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            -webkit-filter: blur(2px);
+            -moz-filter: blur(2px);
+            -ms-filter: blur(2px);
+            -o-filter: blur(2px);
+            filter: blur(2px);
+        }
+
+        #blur_imgbutton .horizontal-border{
+            width: 80%;
+            height: 80%;
+            position: absolute;
+            border: 2px solid white;
+            animation: border-horizontal-move 2s;
+        }
+
+        #blur_imgbutton .vertical-border{
+            width: 80%;
+            height: 80%;
+            position: absolute;
+            border-left: 2px solid white;
+            border-right: 2px solid white;
+            animation: border-vertical-move 2s;
+        }
+
+        @keyframes border-horizontal-move{
+            0%{
+                clip: rect(0,122px,164px,122px);
+
+            }
+            100%{
+                clip: rect(0,244px,164px,0px);
+
+            }
+        }
+
+        @keyframes border-vertical-move{
+            0%{
+                clip: rect(82px,244px,82px,0px);
+
+            }
+            100%{
+                clip: rect(0,244px,164px,0px);
+
+            }
+        }
+    </style>
+</head>
+<body>
+   <div id="blur_imgbutton">
+       <img src="sakura.jpg">
+       <div class="vertical-border"></div>
+       <div class="horizontal-border"></div>
+   </div>
+</body>
+</html>
