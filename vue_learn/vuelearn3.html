@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>component</title>
+    <script src="vue.js">
+</script>
+</head>
+<body>
+<div id="app1">
+    <my-component>
+    </my-component>
+</div>
+<div id="app2">
+    <mychild></mychild>
+</div>
+
+<div id="app3">
+    <app3child message='hello'></app3child>
+</div>
+<script>
+    Vue.component('my-component',{
+        template:'<p>This is my component</p>'
+    });
+    var vm1=new Vue({
+       el:"#app1"
+    });
+
+    var Child={
+        template:'<p>A child component can only be used inside of his parent</p>'
+    }
+    var vm2=new Vue({
+       el:"#app2",
+       components:{
+           'mychild':Child
+       }
+    });
+
+    var app3child={
+        props:['message'],
+        template:'<p>{{message}}</p>'
+    }
+
+    var vm3=new Vue({
+       el:"#app3",
+       components:{
+           'app3child':app3child
+       }
+    });
+</script>
+</body>
+</html>

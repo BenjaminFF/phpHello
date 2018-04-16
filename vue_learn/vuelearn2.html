@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>template</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+<div id="app1">
+    <span>{{msg}}</span>
+</div>
+<div id="app2">
+    <p>Using mustaches:<span style="color: red">{{rawHtml}}</span></p>
+    <p>Using v-html directive: <span v-html="rawHtml" style="color: red"></span></p>
+    <p v-if="seen">v-if 指令将根据表达式 seen 的值的真假来插入/移除 <p> 元素。</p>
+</div>
+<div id="app3">
+    <p>{{message.split('').reverse().join('')}}</p>
+    <p>{{reversedMessage}}</p>
+    <p>{{mreversedMessage()}}</p>
+</div>
+<div id="app4">
+    <p>{{computed_Date}}</p>
+</div>
+<script>
+    var vm1=new Vue({
+       el:"#app1",
+       data:{
+           msg:"数据绑定最常见的形式就是使用“Mustache”语法 (双大括号) 的文本插值"
+       }
+    });
+    var vm2=new Vue({
+        el:"#app2",
+        data:{
+            rawHtml:"This should be red",
+            seen:true
+        }
+    });
+
+    var vm3=new Vue({
+        el:"#app3",
+        data:{
+            message:"hello world"
+        },
+        computed:{
+            reversedMessage:function () {
+                return this.message.split('').reverse().join('')
+            }
+        },
+        methods:{
+            mreversedMessage:function () {
+                return this.message.split('').reverse().join('')
+            }
+        }
+    });
+
+    var vm4=new Vue({
+        el:"#app4",
+        data:{
+        },
+        computed:{
+            computed_Date:function () {
+                return Date.now()
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form_radio_vue</title>
+    <script src="vue.js">
+    </script>
+    <style type="text/css">
+        body,div{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        #radio_form{
+            display: flex;
+            justify-content: center;
+        }
+        #school_select{
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+        #school_select select:nth-child(2){
+            border-radius: 2px;
+            padding: 0.3em;
+            font-size: medium;
+            margin-right: 3em;
+        }
+        #school_select select:nth-child(3){
+            border-radius: 2px;
+            padding: 0.3em;
+            font-size: medium;
+        }
+
+        #firm_input{
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+
+        #firm_input input{
+            border-radius: 2px;
+            padding: 0.3em;
+            font-size: medium;
+            outline: none;
+            border: 1px grey solid
+        }
+    </style>
+</head>
+<body>
+   <div id="radio_form">
+       <input type="radio" id="inschool" value="inschool" v-model="picked">
+       <span style="margin-right: 2em">在校生</span>
+       <input type="radio" id="outschool" value="outschool" v-model="picked">
+       <span>非在校生</span>
+   </div>
+
+   <div id="school_select" v-show="radio_vm.picked=='inschool'">
+       <p style="margin-right: 1em">学校</p>
+       <select v-model="place_selected">
+           <option v-for="place in places">
+               {{place.place}}
+           </option>
+       </select>
+       <select v-if="place_selected=='北京'">
+           <option v-for="school in beijing">
+               {{school.school}}
+           </option>
+       </select>
+       <select  v-else-if="place_selected=='天津'">
+           <option v-for="school in tianjing">
+               {{school.school}}
+           </option>
+       </select>
+       <select  v-else="place_selected=='上海'">
+           <option v-for="school in shanghai">
+               {{school.school}}
+           </option>
+       </select>
+   </div>
+
+   <div id="firm_input" v-show="radio_vm.picked=='outschool'">
+       <p style="margin-right: 1em">就业单位</p>
+       <input type="text">
+   </div>
+<script>
+    var radio_vm=new Vue({
+       el:"#radio_form",
+        data:{
+           picked:"inschool"
+        }
+    });
+    var select_vm=new Vue({
+       el:"#school_select",
+       data:{
+           radio_vm:radio_vm,
+           place_selected:"北京",
+           places:[
+               {place:"北京"},
+               {place:"天津"},
+               {place:"上海"}
+           ],
+           beijing:[
+               {school:"北京大学1"},
+               {school:"北京大学2"},
+               {school:"北京大学3"}
+           ],
+           tianjing:[
+               {school:"天津大学1"},
+               {school:"天津大学2"},
+               {school:"天津大学3"},
+               {school:"天津大学4"}
+           ],
+           shanghai:[
+               {school:"上海大学1"},
+               {school:"上海大学2"},
+               {school:"上海大学3"}
+           ]
+       }
+    });
+    var input_vm=new Vue({
+       el:"#firm_input",
+        data:{
+            radio_vm:radio_vm
+        }
+    });
+</script>
+</body>
+</html>
