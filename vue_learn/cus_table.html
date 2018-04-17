@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cus_table</title>
+    <script src="vue.js"></script>
+    <style type="text/css">
+        body,div,p,th,table,tr,img{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #mytable{
+            width: fit-content;
+            height: fit-content;
+            border-collapse: collapse;
+            flex: 0 0 auto;
+        }
+        #mytable th{
+            border: black 2px solid;
+        }
+
+        #mytable th .item{
+            width: 6em;
+            height: 2.5em;
+            position: relative;
+        }
+        #mytable th p{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            font-size: 1.2em;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .th-imgs{
+            position: absolute;
+            width: 20%;
+            height: 100%;
+            justify-content: space-between;
+            flex-direction: column;
+            right: 0;
+        }
+        .th-imgs img{
+            width: 0.8em;
+            height: 0.8em;
+        }
+
+        #mytable td{
+            width: 6em;
+            height: 2.5em;
+            border: black 2px solid;
+
+        }
+        #mytable td p{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<table id="mytable">
+    <tr>
+        <th v-for="th in ths">
+            <div class="item">
+                <p>{{th.text}}</p>
+                <div class="th-imgs">
+                    <img src="up.svg" @click="sortRowby(th.value,false)">
+                    <img src="down.svg" @click="sortRowby(th.value,true)">
+                </div>
+            </div>
+        </th>
+    </tr>
+    <tr v-for="grade in grades">
+        <td><p>{{grade.name}}</p></td>
+        <td><p>{{grade.Chinese}}</p></td>
+        <td><p>{{grade.Math}}</p></td>
+        <td><p>{{grade.English}}</p></td>
+        <td><p>{{grade.Total}}</p></td>
+    </tr>
+</table>
+
+   <script>
+       var vm=new Vue({
+           el:"#mytable",
+           data:{
+               ths:[
+               ],
+               grades:[],
+               rowlens:7
+           },
+           created:function () {
+               var p1={name:"李磊",Chinese:90,Math:70,English:80,Total:240};
+               var p2={name:"小明",Chinese:85,Math:75,English:95,Total:255};
+               var p3={name:"红二",Chinese:70,Math:65,English:85,Total:220};
+               this.grades.push(p1);
+               this.grades.push(p2);
+               this.grades.push(p3);
+               this.ths=[
+                   {value:"name",text:"姓名"},
+                   {value:"Chinese",text:"语文"},
+                   {value:"Math",text:"数学"},
+                   {value:"English",text:"英语"},
+                   {value:"Total",text:"总分"}
+               ];
+           },
+           methods:{
+               compare:function (property,reverse) {
+                   return function (a,b) {
+                       if(typeof  a[property]=="number"){
+                           if(!reverse){
+                               return a[property]-b[property];
+                           }else {
+                               return b[property]-a[property];
+                           }
+                       }else if(typeof  a[property]=="string") {
+                           var v1 = a[property].charCodeAt(0);
+                           var v2 = b[property].charCodeAt(0);
+                           if (!reverse) {
+                               return v1 - v2;
+                           } else {
+                               return v2 - v1;
+                           }
+                       }
+                   }
+               },
+               sortRowby:function (property,reverse) {
+                   this.grades.sort(this.compare(property,reverse));
+               }
+           }
+       });
+   </script>
+</body>
+</html>
