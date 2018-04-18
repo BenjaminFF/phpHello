@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Schulte Grid</title>
+    <script src="vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+    <style type="text/css">
+        body,div,table,tr,p{
+            margin: 0;
+            padding: 0;
+        }
+
+        html,body{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #mytable{
+            width: fit-content;
+            height: fit-content;
+            border-collapse: collapse;
+        }
+
+        #mytable td{
+            width: 3em;
+            height: 3em;
+            border: black 2px solid;
+        }
+
+        #mytable td p{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: default;
+            user-select: none;
+        }
+
+        .active{
+            background-color: lawngreen;
+            width: 3em;
+            height: 3em;
+        }
+        .cell-exchange-list-move {
+            transition: transform 1s;
+        }
+        .flip-list-move {
+            transition: transform 1s;
+        }
+    </style>
+</head>
+<body>
+<table id="mytable">
+
+        <tr v-for="tr in table.trs">
+            <td v-for="td in tr.tds" v-bind:class="{active:td.isActive}"
+                @click="stepMove(td)" v-bind:key="td">
+                <p>{{td.tdIndex}}</p>
+            </td>
+        </tr>
+    <tr>
+        <td @click="shuffle()"><p>test</p></td>
+    </tr>
+
+</table>
+<script>
+    var vm=new Vue({
+        el:"#mytable",
+        data:{
+            curIndex:1,
+            table:[],
+            trlens:6,tdlens:6,
+            tdIndices:[]
+        },
+        created:function () {
+            var trs=[];
+            var tdIndex=1;
+            for(i=0;i<this.trlens*this.tdlens;i++){
+                this.tdIndices[i]={
+                    tindex:i+1
+                };
+            }
+            for(var i=0;i<this.trlens;i++){
+                var tds=[];
+                for(var j=0;j<this.tdlens;j++){
+                    tdIndex=j+i*this.trlens;
+                    tds[j]={
+                        i:i,
+                        j:j,
+                        tdIndex:this.tdIndices[tdIndex].tindex,
+                        isActive:false
+                    };
+                }
+                trs[i]={
+                    tds:tds
+                }
+            }
+            var table={
+                trs:trs
+            }
+            this.table=table;
+        },
+        methods:{
+            stepMove:function (td) {
+                if(td.tdIndex===this.curIndex){
+                    td.isActive=true;
+                    this.curIndex++;
+                }
+            },
+            shuffle:function () {
+                    this.tdIndices=_.shuffle(this.tdIndices);
+                    console.info(this.tdIndices);
+            }
+        }
+    });
+</script>
+</body>
+</html>

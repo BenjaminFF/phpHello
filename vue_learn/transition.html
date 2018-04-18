@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>transition</title>
+    <script src="vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+    <style type="text/css">
+        .fade-leave-active,.fade-enter-active{
+            transition: opacity 1s;
+        }
+        .fade-leave-to,.fade-enter {
+            opacity: 0;
+        }
+        .slide-fade-enter-active{
+            transition:all .3s ease;
+        }
+        .slide-fade-leave-active{
+            transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+        .slide-fade-enter,.slide-fade-leave-to{
+            opacity: 0;
+            transform: translateX(10px);
+        }
+        .flip-list-move {
+            transition: transform 1s;
+        }
+    </style>
+</head>
+<body>
+<div id="demo1">
+    <button v-on:click="show=!show">
+        Toggle
+    </button>
+    <transition name="fade">
+        <p v-if="show">Hello</p>
+    </transition>
+</div>
+<div id="demo2">
+    <button v-on:click="show=!show">
+        Toggle render
+    </button>
+    <transition name="slide-fade">
+        <p v-if="show">Hello</p>
+    </transition>
+</div>
+<div id="flip-list-demo">
+    <button v-on:click="shuffle">
+        shuffle
+    </button>
+    <transition-group name="flip-list" tag="ul">
+        <li v-for="item in items" v-bind:key="item">
+            {{ item }}
+        </li>
+    </transition-group>
+</div>
+<script>
+    var vm1=new Vue({
+        el:"#demo1",
+       data:{
+           show:true
+       }
+    });
+    var vm2=new Vue({
+       el:"#demo2",
+       data:{
+           show:true
+       }
+    });
+    var vm3=new Vue({
+        el: '#flip-list-demo',
+        data: {
+            items: [1,2,3,4,5,6,7,8,9]
+        },
+        methods: {
+            shuffle: function () {
+                this.items = _.shuffle(this.items)
+            }
+        }
+    });
+</script>
+</body>
+</html>
