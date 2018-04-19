@@ -19,100 +19,112 @@
             align-items: center;
         }
 
-        #mytable{
+        .schulte{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container{
+            --row:6;
+            --column:6;
             width: fit-content;
             height: fit-content;
-            border-collapse: collapse;
+            display: grid;
+            grid-template-columns: repeat(var(--row),5em);
+            grid-template-rows: repeat(var(--column),5em);
         }
 
-        #mytable td{
-            width: 3em;
-            height: 3em;
-            border: black 2px solid;
+        .cell{
+            margin: 2px;
+
         }
 
-        #mytable td p{
+        .cell-content{
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: default;
             user-select: none;
+            color: white;
+            background-color: #c3dfdf;
         }
 
-        .active{
-            background-color: lawngreen;
-            width: 3em;
-            height: 3em;
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s;
         }
-        .cell-exchange-list-move {
-            transition: transform 1s;
+        .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
         }
+
         .flip-list-move {
             transition: transform 1s;
         }
     </style>
 </head>
 <body>
-<table id="mytable">
-
-        <tr v-for="tr in table.trs">
-            <td v-for="td in tr.tds" v-bind:class="{active:td.isActive}"
-                @click="stepMove(td)" v-bind:key="td">
-                <p>{{td.tdIndex}}</p>
-            </td>
-        </tr>
-    <tr>
-        <td @click="shuffle()"><p>test</p></td>
-    </tr>
-
-</table>
+<div id="schulte" class="schulte">
+    <button @click="shuffle">shuffle</button>
+    <div id="container" class="container" ref="container"
+         is="transition-group" name="flip-list" v-bind:style="{'--row':row,'--column':column}">
+            <div v-for="cell in cells" class="cell" :key="cell.value"
+                 @click="septMove(cell)">
+                <transition name="fade">
+                    <p class="cell-content" v-if="cell.isActive">{{cell.value}}</p>
+                </transition>
+            </div>
+    </div>
+</div>
 <script>
-    var vm=new Vue({
-        el:"#mytable",
+    var vmcontainer=new Vue({
+        el:"#schulte",
         data:{
-            curIndex:1,
-            table:[],
-            trlens:6,tdlens:6,
-            tdIndices:[]
+            curValue:1,
+            row:6,
+            column:6,
+            cells:[],
         },
         created:function () {
-            var trs=[];
-            var tdIndex=1;
-            for(i=0;i<this.trlens*this.tdlens;i++){
-                this.tdIndices[i]={
-                    tindex:i+1
+            var cells=[];
+            for(var i=0;i<this.row*this.column;i++){
+                cells[i]={
+                    value:i+1,
+                    isActive:true
                 };
             }
-            for(var i=0;i<this.trlens;i++){
-                var tds=[];
-                for(var j=0;j<this.tdlens;j++){
-                    tdIndex=j+i*this.trlens;
-                    tds[j]={
-                        i:i,
-                        j:j,
-                        tdIndex:this.tdIndices[tdIndex].tindex,
-                        isActive:false
-                    };
-                }
-                trs[i]={
-                    tds:tds
-                }
-            }
-            var table={
-                trs:trs
-            }
-            this.table=table;
+            this.cells=cells;
         },
         methods:{
-            stepMove:function (td) {
-                if(td.tdIndex===this.curIndex){
-                    td.isActive=true;
-                    this.curIndex++;
+            setSize:function (row,column) {
+                this.$el.style.setProperty('--row',row);
+                this.$el.style.setProperty('--column',column);
+                if(this.row*this.column>row*column){
+                    var offset=this.row*this.column-row*column;
+                    for(var i=0;i<offset;i++){
+                        this.cells.pop();
+                    }
+                }else if(this.row*this.column<row*column){
+                    for(var i=this.row*this.column+1;i<row*column+1;i++){
+                        this.cells.push(i);
+                    }
+                }
+                this.row=row;
+                this.column=column;
+            },
+            septMove:function(cell){
+
+                if(this.curValue==cell.value){
+                    cell.isActive=false;
+                    this.curValue++;
                 }
             },
             shuffle:function () {
-                    this.tdIndices=_.shuffle(this.tdIndices);
-                    console.info(this.tdIndices);
+                this.cells=_.shuffle(this.cells);
             }
         }
     });
