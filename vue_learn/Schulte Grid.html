@@ -55,6 +55,11 @@
             background-color: #c3dfdf;
         }
 
+        .functions{
+            display: flex;
+            justify-content: center;
+        }
+
         .fade-enter-active, .fade-leave-active {
             transition: opacity .5s;
         }
@@ -69,7 +74,10 @@
 </head>
 <body>
 <div id="schulte" class="schulte">
-    <button @click="shuffle">shuffle</button>
+    <div class="functions">
+        <button @click="setInterval">start</button>
+        <p>{{time.minute+':'+time.second}}</p>
+    </div>
     <div id="container" class="container" ref="container"
          is="transition-group" name="flip-list" v-bind:style="{'--row':row,'--column':column}">
             <div v-for="cell in cells" class="cell" :key="cell.value"
@@ -88,6 +96,11 @@
             row:6,
             column:6,
             cells:[],
+            time:{
+                second:'00',
+                minute:'00',
+            },
+            interval:0,
         },
         created:function () {
             var cells=[];
@@ -118,13 +131,38 @@
             },
             septMove:function(cell){
 
-                if(this.curValue==cell.value){
-                    cell.isActive=false;
+                if(this.curValue==cell.value) {
+                    cell.isActive = false;
                     this.curValue++;
+                }
+                if (this.curValue==this.row*this.column+1){
+                    clearInterval(this.interval);
                 }
             },
             shuffle:function () {
                 this.cells=_.shuffle(this.cells);
+            },
+            updatetime:function () {
+                var second=parseInt(this.time.second);
+                second++;
+                if(second<10){
+                    this.time.second='0'+second;
+                }else if(second==60){
+                    this.time.second='00';
+                    var minute=parseInt(this.time.minute);
+                    minute++;
+                    if(minute<10){
+                        this.time.minute='0'+minute;
+                    }else {
+                        this.time.minute=minute;
+                    }
+                }else {
+                    this.time.second=second;
+                }
+            },
+            setInterval:function () {
+                this.interval=setInterval(this.updatetime,1000);
+                this.shuffle();
             }
         }
     });

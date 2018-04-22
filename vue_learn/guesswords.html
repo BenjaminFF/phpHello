@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>guesswords</title>
+    <script src="vue.js"></script>
+    <style type="text/css">
+        body,div,p{
+            margin: 0;
+            padding: 0;
+        }
+        body,html{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .guess_word{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container{
+            --row:6;
+            --column:6;
+            width: fit-content;
+            height: fit-content;
+            display: grid;
+            grid-template-columns: repeat(var(--row),5em);
+            grid-template-rows: repeat(var(--column),5em);
+        }
+
+        .cell{
+            margin: 2px;
+
+        }
+
+        .cell-content{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: default;
+            user-select: none;
+            color: white;
+            background-color: #c3dfdf;
+        }
+
+        .letterActive{
+            background-color: #718585;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div id="guessword" class=".guess_word">
+    <p style="text-align: center">{{vocabulary[curwordIndex].hint}}</p>
+    <div id="container" class="container"
+         v-bind:style="{'--row':row,'--column':column}">
+        <div v-for="letter in letters" class="cell">
+            <p v-if="letter.isVisible" class="cell-content" v-bind:class="{letterActive:letter.isActive}" @click="marryword(letter)">{{letter.letter}}</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    var vm=new Vue({
+        el:"#guessword",
+       data:{
+           vocabulary:[],
+           row:[],column:[],
+           letters:[],
+           a_z:[],
+           curwordIndex:[],
+           curIndex:[],
+           curletters:[],
+           vanishqueue:[]
+       },
+       created:function () {
+            for(var i=0;i<26;i++){
+                this.a_z[i]=String.fromCharCode(i+97)+'';
+            }
+
+           var w1={word:'commit',hint:'to do something illegal'};
+           var w2={word:'demon',hint:'an evil spirit or force'};
+           var w3={word:'dim',hint:'not bright or clear'};
+           var w4={word:'impose',hint:'to force on others'};
+           var w5={word:'churn',hint:'stir up'};
+           var w6={word:'downpour',hint:'a heavy rain'};
+           this.vocabulary.push(w1);
+           this.vocabulary.push(w2);
+           this.vocabulary.push(w3);
+           this.vocabulary.push(w4);
+           this.vocabulary.push(w5);
+           this.vocabulary.push(w6);
+
+           this.curwordIndex=0;
+           this.curIndex=0;
+           this.curletters=this.vocabulary[0].word.split("");
+
+           var pointer=0;
+           letters=new Array();
+           this.vanishqueue=new Array();
+           for(var i=0;i<this.vocabulary.length;i++){
+               var arr=this.vocabulary[i].word.split("");
+               for(var j=0;j<arr.length;j++){
+                   var letter={
+                       letter:arr[j],
+                       isActive:false,
+                       isVisible:true
+                   };
+                   letters.push(letter);
+               }
+           }
+
+           var sqrt_letters=Math.sqrt(letters.length);
+           var sqrt_int=parseInt(sqrt_letters);
+           if(sqrt_letters-sqrt_int>=1e-6){    //如果它不能开方
+               var end=(sqrt_int+1)*(sqrt_int+1);
+               for(var i=letters.length;i<end;i++){
+                   var letter={
+                       letter:this.a_z[parseInt(Math.random()*25)],
+                       isActive:false,
+                       isVisible:true
+                   }
+                   letters.push(letter);
+               }
+           }
+           this.letters=letters;
+           this.row=this.column=Math.sqrt(letters.length);
+       },
+        methods:{
+            marryword:function (letter) {
+                if(this.curletters[this.curIndex]==letter.letter){
+                    this.curIndex++;
+                    letter.isActive=true;
+                    this.vanishqueue.push(letter);
+                }
+                if(this.curIndex==this.curletters.length){
+                    for(var i=0;i<this.curletters.length;i++){
+                        this.vanishqueue[i].isVisible=false;
+                    }
+                    for(var j=0;j<this.curletters.length;j++){
+                        this.vanishqueue.pop();
+                    }
+                    this.curIndex=0;
+                    if(this.curwordIndex!=this.vocabulary.length-1){
+                        this.curwordIndex++;
+                        this.curletters=this.vocabulary[this.curwordIndex].word.split("");
+                    }
+                    console.info(this.vanishqueue);
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
